@@ -1,23 +1,13 @@
-import React, {useState} from "react";
-
-
-async function loginUser(credentials) {
-    return fetch('http://localhost:5001/api/parent/login', {
-      method: 'POST',
-      headers: {
-        authorization: 'Bearer ' //+ access_token
-      },
-      body: JSON.stringify(credentials)
-    })
-      .then(data => data.json())
-   }
+import React, { useState } from "react";
+import axios from "axios";
 
 const ParentLogin = (props) => {
-    //States for login
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+  //States for login
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [login, setLogin] = useState(false);
 
-    //Handling changes
+  //Handling changes
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -27,31 +17,49 @@ const ParentLogin = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = await loginUser({
-      email,
-      password
-    });
-    props.setToken(token);
-  }
+    const configuration = {
+      method: "post",
+      url: "",
+      data: {
+        email,
+        password,
+      },
+    };
+    axios(configuration)
+      .then((result) => {
+        setLogin(true);
+      })
+      .catch((error) => {
+        error = new Error();
+      });
+  };
 
   return (
     <>
       <div>
-        <h1>Please Log In</h1>
+        <h1>Login</h1>
       </div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          <p>Email </p>
-          <input type="email" value={email} onChange={handleEmail}/>
-        </label>
-        <label>
-          <p>Password </p>
-          <input type="password" value={password} onChange={handlePassword}/>
-        </label>
+      <form onSubmit={handleSubmit} method="post" target="_blank">
+        <label>Email </label>
+        <input type="email" name="email" value={email} onChange={handleEmail} />
+        <label>Password </label>
+        <input
+          type="password"
+          name="password"
+          value={password}
+          onChange={handlePassword}
+        />
         <div>
-          <button type="submit">Submit</button>
+          <button type="submit" onCLick={handleSubmit}>
+            Submit
+          </button>
         </div>
       </form>
+      {login ? (
+        <p>You Have Logged in Successfully</p>
+      ) : (
+        <p>You Are Not Logged in</p>
+      )}
     </>
   );
 };

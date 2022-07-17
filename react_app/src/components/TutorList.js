@@ -1,7 +1,9 @@
 import React from "react";
 
 const TutorList = () => {
-  return <div></div>;
+  return <>
+  
+  </>;
 };
 
 export default TutorList;

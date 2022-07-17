@@ -31,7 +31,6 @@ const ConfirmHireModal = (props) => {
         <OverLay
           title={props.title}
           message={props.message}
-          okayClicked={props.okayClicked}
           onClick={props.onClose}
         />,
         document.querySelector("#modal-root")

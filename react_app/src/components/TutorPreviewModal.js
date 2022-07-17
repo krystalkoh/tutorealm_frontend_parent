@@ -1,11 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const TutorPreviewModal = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  return <></>;
 };
 
 export default TutorPreviewModal;

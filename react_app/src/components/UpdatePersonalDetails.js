@@ -1,15 +1,28 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-const ParentRegForm = () => {
-  //States for registration
+const UpdatePersonalDetails = () => {
   const [email, setEmail] = useState("");
   const [parentName, setParentName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
+  const params = useParams();
+  const navigate = useNavigate;
 
-  const [register, setRegister] = useState(false);
+  useEffect(() => {
+    getPersonalDetails();
+  }, []);
+
+  const getPersonalDetails = async () => {
+    let result = await fetch(`http://localhost:5001/parent/${params.id}`);
+    result = await result.json();
+    setEmail(result.email);
+    setParentName(result.parentName);
+    setPhone(result.phone);
+    setAddress(result.address);
+    setPassword(result.password);
+  };
 
   //Handling changes
   const handleEmail = (e) => {
@@ -28,27 +41,19 @@ const ParentRegForm = () => {
     setPassword(e.target.value);
   };
 
-  // Handling form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const configuration = {
-      method: "post",
-      url: "",
-      data: {
-        email,
-        parentName,
-        phone,
-        address,
-        password,
+  // Handling form update
+  const updateProduct = async () => {
+    let result = await fetch(`http://localhost:5001/parent/${params.id}`, {
+      headers: {
+        "Content-Type": "Application/json",
       },
-    };
-    axios(configuration)
-      .then((result) => {
-        setRegister(true);
-      })
-      .catch((error) => {
-        error = new Error();
-      });
+      method: "Put",
+      body: JSON.stringify({ email, parentName, phone, address, password }),
+    });
+    result = await result.json();
+    if (result) {
+      navigate("/");
+    }
   };
 
   return (
@@ -56,7 +61,7 @@ const ParentRegForm = () => {
       <div>
         <h1>Register</h1>
       </div>
-      <form action="" method="post" target="_blank" onSubmit={handleSubmit}>
+      <form action="" method="post" target="_blank" onSubmit={updateProduct}>
         <div>
           <div>
             <label>Parent's email </label>
@@ -115,18 +120,13 @@ const ParentRegForm = () => {
           </div>
         </div>
         <div>
-          <button type="submit" class="btn" onClick={handleSubmit}>
+          <button type="submit" class="btn" onClick={updateProduct}>
             Register
           </button>
         </div>
       </form>
-      {register ? (
-        <p>You Are Registered Successfully</p>
-      ) : (
-        <p>You Are Not Registered</p>
-      )}
     </>
   );
 };
 
-export default ParentRegForm;
+export default UpdatePersonalDetails;

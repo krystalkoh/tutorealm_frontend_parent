@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import CreateJobModal from "./CreateJobModal";
+import axios from "axios";
 
 const CreateJob = () => {
   //States for job creation
@@ -9,10 +11,10 @@ const CreateJob = () => {
   const [frequency, setFrequency] = useState("");
   const [days, setDays] = useState("");
   const [rate, setRate] = useState("");
+  const [createJob, setCreateJob] = useState(false)
 
-  // States for checking the errors
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState(false);
+  //State for modal to show
+  const [show, setShow] = useState(false)
 
   //Handling changes
   const handleChildName = (e) => {
@@ -38,48 +40,29 @@ const CreateJob = () => {
   };
 
   // Handling form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      childName === "" ||
-      level === "" ||
-      subject === "" ||
-      duration === "" ||
-      frequency === "" ||
-      days === "" ||
-      rate === ""
-    ) {
-      setError(true);
-    } else {
-      setSubmitted(true);
-      setError(false);
-    }
-  };
-
-  // Showing success message
-  const successMessage = () => {
-    return (
-      <div
-        style={{
-          display: submitted ? "" : "none",
-        }}
-      >
-        <h1>You've successfully created an assignment!</h1>
-      </div>
-    );
-  };
-
-  // Showing error message if error is true
-  const errorMessage = () => {
-    return (
-      <div
-        style={{
-          display: error ? "" : "none",
-        }}
-      >
-        <h1>Please enter all fields</h1>
-      </div>
-    );
+    const configuration = {
+      method: "post",
+      url: "",
+      data: {
+        childName,
+        level,
+        subject,
+        duration,
+        frequency,
+        days,
+        rate
+      },
+    };
+    axios(configuration)
+      .then((result) => {
+        setCreateJob(true);
+        setShow(false)
+      })
+      .catch((error) => {
+        error = new Error();
+      });
   };
 
   return (
@@ -87,11 +70,7 @@ const CreateJob = () => {
       <div>
         <h1>Registration Form</h1>
       </div>
-      <div>
-        {errorMessage()}
-        {successMessage()}
-      </div>
-      <form action="" method="post" target="_blank" onSubmit={handleSubmit}>
+      <form action="" method="post" target="_blank" onSubmit={setShow(true)}>
         <div>
           <div>
             <label>Child's name </label>
@@ -100,11 +79,12 @@ const CreateJob = () => {
               placeholder="Name of child"
               value={childName}
               onChange={handleChildName}
+              required
             />
           </div>
           <div>
             <label>Select a level: </label>
-            <select name="level" value={level} onChange={handleLevel}>
+            <select name="level" value={level} onChange={handleLevel} required>
               <option value="P1">P1</option>
               <option value="P2">P2</option>
               <option value="P3">P3</option>
@@ -127,6 +107,7 @@ const CreateJob = () => {
               placeholder="Subject"
               value={subject}
               onChange={handleSubject}
+              required
             />
           </div>
           <div>
@@ -136,6 +117,7 @@ const CreateJob = () => {
               placeholder="Duration"
               value={duration}
               onChange={handleDuration}
+              required
             />
           </div>
           <div>
@@ -145,6 +127,7 @@ const CreateJob = () => {
               placeholder="Frequency"
               value={frequency}
               onChange={handleFrequency}
+              required
             />
           </div>
           <div>
@@ -154,6 +137,7 @@ const CreateJob = () => {
               placeholder="Which days will tuition be conducted?"
               value={days}
               onChange={handleDays}
+              required
             />
           </div>
           <div>
@@ -163,15 +147,29 @@ const CreateJob = () => {
               placeholder="Which days will tuition be conducted?"
               value={rate}
               onChange={handleRate}
+              required
             />
           </div>
         </div>
         <div>
-          <button type="submit" class="btn">
+          <button type="submit" class="btn" onClick={setShow(true)}>
             Create assignment
           </button>
         </div>
       </form>
+      {createJob ? (
+        <p>You Have Created An Assignment Successfully</p>
+      ) : (
+        <p>You Did Not Create An Assignment</p>
+      )}
+      {show && (
+          <CreateJobModal
+            title="Confirmation"
+            message="Are you sure you want to create this job assignment?"
+            show={show}
+            onClick={handleSubmit}
+          />
+        )}
     </>
   );
 };

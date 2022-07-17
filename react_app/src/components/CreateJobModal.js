@@ -11,7 +11,7 @@ const OverLay = (props) => {
           <h2>{props.title}</h2>
         </header>
         <div className={styles.content}>
-          <ol>{props.message}</ol>
+          <p>{props.message}</p>
         </div>
         <footer className={styles.actions}>
           <ModalButton onClick={props.onClick}>Confirm</ModalButton>
@@ -24,21 +24,20 @@ const OverLay = (props) => {
 const CreateJobModal = (props) => {
   if (!props.show) {
     return null;
+  } else {
+    return (
+      <>
+        {ReactDOM.createPortal(
+          <OverLay
+            title={props.title}
+            message={props.message}
+            onClick={props.onClick}
+          />,
+          document.querySelector("#modal-root")
+        )}
+      </>
+    );
   }
-
-  return (
-    <>
-      {ReactDOM.createPortal(
-        <OverLay
-          title={props.title}
-          message={props.message}
-          okayClicked={props.okayClicked}
-          onClick={props.onClose}
-        />,
-        document.querySelector("#modal-root")
-      )}
-    </>
-  );
 };
 
 export default CreateJobModal;
