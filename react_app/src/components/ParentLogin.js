@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import authService from "../services/AuthService";
 
 const ParentLogin = (props) => {
   //States for login
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [login, setLogin] = useState(false);
+  let navigate = useNavigate();
 
   //Handling changes
   const handleEmail = (e) => {
@@ -16,18 +19,15 @@ const ParentLogin = (props) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    await fetch("http://localhost:5001/api/parent/login", {
-      method: "POST",
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    })
-      .then((response) => response.json())
+    authService
+      .login(email, password)
+      .then(() => {
+        navigate("/jobs");
+        window.location.reload();
+      })
       .catch((err) => {
         console.log(err.message);
       });
-      //if email and password match, setLogin(true)
     setLogin(true);
   };
 
@@ -38,7 +38,12 @@ const ParentLogin = (props) => {
       </div>
       <form onSubmit={() => handleLogin()} method="post" target="_blank">
         <label>Email </label>
-        <input type="email" name="email" value={email} onChange={(e) => handleEmail(e)} />
+        <input
+          type="email"
+          name="email"
+          value={email}
+          onChange={(e) => handleEmail(e)}
+        />
         <label>Password </label>
         <input
           type="password"
