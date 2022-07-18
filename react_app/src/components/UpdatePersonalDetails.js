@@ -10,10 +10,6 @@ const UpdatePersonalDetails = () => {
   const params = useParams();
   const navigate = useNavigate;
 
-  useEffect(() => {
-    getPersonalDetails();
-  }, []);
-
   const getPersonalDetails = async () => {
     let result = await fetch(`http://localhost:5001/parent/${params.id}`);
     result = await result.json();
@@ -24,6 +20,11 @@ const UpdatePersonalDetails = () => {
     setPassword(result.password);
   };
 
+  useEffect(() => {
+    getPersonalDetails();
+  }, []);
+
+ 
   //Handling changes
   const handleEmail = (e) => {
     setEmail(e.target.value);
