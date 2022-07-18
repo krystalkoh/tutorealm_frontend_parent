@@ -69,7 +69,7 @@ const ParentRegForm = () => {
       ) : (
         <p>Please Register For An Account</p>
       )}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => handleSubmit(e)}>
         <div>
           <div>
             <label>Parent's email </label>
@@ -78,7 +78,7 @@ const ParentRegForm = () => {
               placeholder="Email"
               name="email"
               value={email}
-              onChange={handleEmail}
+              onChange={(e) => handleEmail(e)}
               required
             />
           </div>
@@ -89,7 +89,7 @@ const ParentRegForm = () => {
               placeholder="Name of parent"
               name="parentName"
               value={parentName}
-              onChange={handleParentName}
+              onChange={(e) => handleParentName(e)}
               required
             />
           </div>
@@ -100,7 +100,7 @@ const ParentRegForm = () => {
               placeholder="Phone number"
               name="phone"
               value={phone}
-              onChange={handlePhone}
+              onChange={(e) => handlePhone(e)}
               required
             />
           </div>
@@ -111,7 +111,7 @@ const ParentRegForm = () => {
               placeholder="Address"
               name="address"
               value={address}
-              onChange={handleAddress}
+              onChange={(e) => handleAddress(e)}
               required
             />
           </div>
@@ -122,13 +122,13 @@ const ParentRegForm = () => {
               placeholder="Password"
               name="password"
               value={password}
-              onChange={handlePassword}
+              onChange={(e) => handlePassword(e)}
               required
             />
           </div>
         </div>
         <div>
-          <button type="submit" class="btn" onClick={handleSubmit}>
+          <button type="submit" class="btn" onClick={(e) => handleSubmit(e)}>
             Register
           </button>
         </div>

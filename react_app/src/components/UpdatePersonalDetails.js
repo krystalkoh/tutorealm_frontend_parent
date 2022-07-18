@@ -24,7 +24,6 @@ const UpdatePersonalDetails = () => {
     getPersonalDetails();
   }, []);
 
- 
   //Handling changes
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -49,7 +48,13 @@ const UpdatePersonalDetails = () => {
         "Content-Type": "Application/json",
       },
       method: "Put",
-      body: JSON.stringify({ email, parentName, phone, address, password }),
+      body: JSON.stringify({
+        email: email,
+        parentName: parentName,
+        phone: phone,
+        address: address,
+        password: password,
+      }),
     });
     result = await result.json();
     if (result) {
