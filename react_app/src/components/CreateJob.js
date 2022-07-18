@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import CreateJobModal from "./CreateJobModal";
-import axios from "axios";
 
 const CreateJob = () => {
   //States for job creation
@@ -11,10 +10,10 @@ const CreateJob = () => {
   const [frequency, setFrequency] = useState("");
   const [days, setDays] = useState("");
   const [rate, setRate] = useState("");
-  const [createJob, setCreateJob] = useState(false)
+  const [createJob, setCreateJob] = useState(false);
 
   //State for modal to show
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false);
 
   //Handling changes
   const handleChildName = (e) => {
@@ -39,30 +38,49 @@ const CreateJob = () => {
     setRate(e.target.value);
   };
 
+  const addJob = async (
+    childName,
+    level,
+    subject,
+    duration,
+    frequency,
+    days,
+    rate
+  ) => {
+    await fetch("http://localhost:5001/api/parent/create", {
+      method: "PATCH",
+      body: JSON.stringify({
+        childName: childName,
+        level: level,
+        subject: subject,
+        duration: duration,
+        frequency: frequency,
+        days: days,
+        rate: rate,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        // Authorization: "Bearer ", //+ access_token
+      },
+    })
+      .then((response) => response.json())
+      .catch((err) => {
+        console.log(err.message);
+      });
+    setChildName("");
+    setLevel("");
+    setSubject("");
+    setDuration("");
+    setFrequency("");
+    setDays("");
+    setRate("");
+    setCreateJob(true);
+  };
+
   // Handling form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const configuration = {
-      method: "post",
-      url: "",
-      data: {
-        childName,
-        level,
-        subject,
-        duration,
-        frequency,
-        days,
-        rate
-      },
-    };
-    axios(configuration)
-      .then((result) => {
-        setCreateJob(true);
-        setShow(false)
-      })
-      .catch((error) => {
-        error = new Error();
-      });
+    addJob(childName, level, subject, duration, frequency, days, rate);
   };
 
   return (
@@ -70,7 +88,7 @@ const CreateJob = () => {
       <div>
         <h1>Registration Form</h1>
       </div>
-      <form action="" method="post" target="_blank" onSubmit={setShow(true)}>
+      <form onSubmit={setShow(true)}>
         <div>
           <div>
             <label>Child's name </label>
@@ -85,6 +103,7 @@ const CreateJob = () => {
           <div>
             <label>Select a level: </label>
             <select name="level" value={level} onChange={handleLevel} required>
+              <option value="null"> </option>
               <option value="P1">P1</option>
               <option value="P2">P2</option>
               <option value="P3">P3</option>
@@ -163,13 +182,13 @@ const CreateJob = () => {
         <p>You Did Not Create An Assignment</p>
       )}
       {show && (
-          <CreateJobModal
-            title="Confirmation"
-            message="Are you sure you want to create this job assignment?"
-            show={show}
-            onClick={handleSubmit}
-          />
-        )}
+        <CreateJobModal
+          title="Confirmation"
+          message="Are you sure you want to create this job assignment?"
+          show={show}
+          onClick={handleSubmit}
+        />
+      )}
     </>
   );
 };

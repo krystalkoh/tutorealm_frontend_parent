@@ -11,10 +11,10 @@ const OverLay = (props) => {
           <h2>{props.title}</h2>
         </header>
         <div className={styles.content}>
-          <ol>{props.message}</ol>
+          <p>{props.message}</p>
         </div>
         <footer className={styles.actions}>
-          <ModalButton onClick={props.onClick}>Confirm</ModalButton>
+          <ModalButton onClick={props.onClick}>OK</ModalButton>
         </footer>
       </div>
     </div>
@@ -23,20 +23,22 @@ const OverLay = (props) => {
 const ConfirmHireModal = (props) => {
   if (!props.show) {
     return null;
+  } else {
+    return (
+      <>
+        {ReactDOM.createPortal(
+          <OverLay
+            title={props.title}
+            message={props.message}
+            onClick={props.onClick}
+          />,
+          document.querySelector("#modal-root")
+        )}
+      </>
+    );
   }
 
-  return (
-    <>
-      {ReactDOM.createPortal(
-        <OverLay
-          title={props.title}
-          message={props.message}
-          onClick={props.onClose}
-        />,
-        document.querySelector("#modal-root")
-      )}
-    </>
-  );
+  
 };
 
 export default ConfirmHireModal;

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 const ParentLogin = (props) => {
   //States for login
@@ -15,23 +14,16 @@ const ParentLogin = (props) => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const configuration = {
-      method: "post",
-      url: "",
-      data: {
-        email,
-        password,
-      },
-    };
-    axios(configuration)
-      .then((result) => {
-        setLogin(true);
-      })
-      .catch((error) => {
-        error = new Error();
-      });
+    await fetch("http://localhost:5001/api/parent/", {
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    }).then((response) => response.json());
+    setLogin(true);
   };
 
   return (
@@ -39,7 +31,7 @@ const ParentLogin = (props) => {
       <div>
         <h1>Login</h1>
       </div>
-      <form onSubmit={handleSubmit} method="post" target="_blank">
+      <form onSubmit={handleLogin} method="post" target="_blank">
         <label>Email </label>
         <input type="email" name="email" value={email} onChange={handleEmail} />
         <label>Password </label>
@@ -50,7 +42,7 @@ const ParentLogin = (props) => {
           onChange={handlePassword}
         />
         <div>
-          <button type="submit" onCLick={handleSubmit}>
+          <button type="submit" onCLick={handleLogin}>
             Submit
           </button>
         </div>

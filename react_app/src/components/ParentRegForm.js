@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 const ParentRegForm = () => {
   //States for registration
@@ -28,27 +27,36 @@ const ParentRegForm = () => {
     setPassword(e.target.value);
   };
 
+  const addPosts = async (email, parentName, phone, address, password) => {
+    await fetch("http://localhost:5001/api/parent/registration", {
+      method: "PUT",
+      body: JSON.stringify({
+        email: email,
+        parentName: parentName,
+        phone: phone,
+        address: address,
+        password: password,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .catch((err) => {
+        console.log(err.message);
+      });
+    setEmail("");
+    setParentName("");
+    setPhone("");
+    setAddress("");
+    setPassword("");
+  };
+
   // Handling form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    const configuration = {
-      method: "post",
-      url: "",
-      data: {
-        email,
-        parentName,
-        phone,
-        address,
-        password,
-      },
-    };
-    axios(configuration)
-      .then((result) => {
-        setRegister(true);
-      })
-      .catch((error) => {
-        error = new Error();
-      });
+    addPosts(email, parentName, phone, address, password);
+    setRegister(true);
   };
 
   return (
@@ -56,7 +64,12 @@ const ParentRegForm = () => {
       <div>
         <h1>Register</h1>
       </div>
-      <form action="" method="post" target="_blank" onSubmit={handleSubmit}>
+      {register ? (
+        <p>You Are Registered Successfully</p>
+      ) : (
+        <p>Please Register For An Account</p>
+      )}
+      <form onSubmit={handleSubmit}>
         <div>
           <div>
             <label>Parent's email </label>
@@ -120,11 +133,6 @@ const ParentRegForm = () => {
           </button>
         </div>
       </form>
-      {register ? (
-        <p>You Are Registered Successfully</p>
-      ) : (
-        <p>You Are Not Registered</p>
-      )}
     </>
   );
 };
