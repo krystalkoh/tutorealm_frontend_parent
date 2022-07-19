@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CreateJobModal from "./CreateJobModal";
 import authService from "../services/AuthService";
+import { useNavigate } from "react-router-dom";
 
 const CreateJob = () => {
   //States for job creation
@@ -12,6 +13,7 @@ const CreateJob = () => {
   const [days, setDays] = useState("");
   const [rate, setRate] = useState("");
   const [createJob, setCreateJob] = useState(false);
+  let navigate = useNavigate();
 
   //State for modal to show
   const [show, setShow] = useState(false);
@@ -77,17 +79,18 @@ const CreateJob = () => {
     setDays("");
     setRate("");
     setCreateJob(true);
+    navigate("/parent/jobs");
   };
 
-  // Handling form submission
-  const handleSubmit = (e) => {
+  //Function to execute after Confirm button is clicked
+  const handleConfirmJob = (e) => {
     e.preventDefault();
-
     addJob(childName, level, subject, duration, frequency, days, rate);
     setShow(false);
   };
 
-  const handleFormSubmit = (e) => {
+  //Show confirmation modal
+  const handleConfirmModal = (e) => {
     e.preventDefault();
     setShow(true);
   };
@@ -97,8 +100,12 @@ const CreateJob = () => {
       <div>
         <h1>Create Assignment</h1>
       </div>
-
-      <form onSubmit={handleFormSubmit}>
+      {createJob ? (
+        <p>You have created an assignment successfully</p>
+      ) : (
+        <p>You can create an assignment if you feel like it</p>
+      )}
+      <form onSubmit={handleConfirmModal}>
         <div>
           <div>
             <label>Child's name </label>
@@ -150,7 +157,7 @@ const CreateJob = () => {
             />
           </div>
           <div>
-            <label>Frequency </label>
+            <label>Frequency per week</label>
             <input
               type="text"
               placeholder="Frequency"
@@ -170,10 +177,10 @@ const CreateJob = () => {
             />
           </div>
           <div>
-            <label>Rate per hour</label>
+            <label>Rate per hour ($)</label>
             <input
               type="text"
-              placeholder="Which days will tuition be conducted?"
+              placeholder="How much are you charging?"
               value={rate}
               onChange={handleRate}
               required
@@ -186,19 +193,12 @@ const CreateJob = () => {
           </button>
         </div>
       </form>
-
-      {createJob ? (
-        <p>You Have Created An Assignment Successfully</p>
-      ) : (
-        <p>You Did Not Create An Assignment</p>
-      )}
-
       {show && (
         <CreateJobModal
           title="Confirmation"
           message="Are you sure you want to create this job assignment?"
           show={show}
-          onClick={handleSubmit}
+          onClick={handleConfirmJob}
         />
       )}
     </>

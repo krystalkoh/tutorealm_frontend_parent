@@ -14,7 +14,7 @@ const OverLay = (props) => {
           <p>{props.message}</p>
         </div>
         <footer className={styles.actions}>
-          <ModalButton onClick={props.onClick}>OK</ModalButton>
+          <ModalButton onClick={props.onClick}>Hire</ModalButton>
         </footer>
       </div>
     </div>

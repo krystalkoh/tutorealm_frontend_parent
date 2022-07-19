@@ -22,9 +22,6 @@ const OverLay = (props) => {
 };
 
 const CreateJobModal = (props) => {
-  // if (!props.show) {
-  //   return null;
-  // } else {
   return (
     <>
       {ReactDOM.createPortal(

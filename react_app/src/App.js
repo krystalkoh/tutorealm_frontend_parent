@@ -22,10 +22,10 @@ function App() {
             <Route path="/" element={<Navigate replace to="/parent/jobs" />} />
             <Route path="/parent/register" element={<ParentRegForm />} />
             <Route path="/parent/login" element={<ParentLogin />} />
-            <Route path="/parent/jobs" element={<MyJobs />} />
-            <Route path="/parent/create" element={<CreateJob />} />
             <Route path="/parent/update" element={<UpdatePersonalDetails />} />
-            <Route path="/parent/tutors" element={<TutorList />} />
+            <Route path="/parent/create" element={<CreateJob />} />
+            <Route path="/parent/jobs" element={<MyJobs />} />
+            <Route path="/parent/applied" element={<TutorList />} />
           </Routes>
         </Suspense>
       </main>

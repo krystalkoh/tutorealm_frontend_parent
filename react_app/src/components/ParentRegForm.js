@@ -40,7 +40,7 @@ const ParentRegForm = () => {
         password: password,
       }),
       headers: {
-        "Content-type": "application/json; charset=UTF-8",
+        "Content-type": "application/json",
       },
     })
       .then((response) => response.json())
@@ -69,7 +69,7 @@ const ParentRegForm = () => {
       {register ? (
         navigate("/parent/login")
       ) : (
-        <p>Please Register For An Account</p>
+        <p>Please register for an account</p>
       )}
       <form onSubmit={(e) => handleSubmit(e)}>
         <div>
