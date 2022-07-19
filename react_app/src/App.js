@@ -7,6 +7,7 @@ const ParentRegForm = React.lazy(() => import("./components/ParentRegForm"));
 const ParentLogin = React.lazy(() => import("./components/ParentLogin"));
 const MyJobs = React.lazy(() => import("./components/MyJobs"));
 const CreateJob = React.lazy(() => import("./components/CreateJob"));
+const EditJob = React.lazy(() => import("./components/EditJob"));
 const UpdatePersonalDetails = React.lazy(() =>
   import("./components/UpdatePersonalDetails")
 );
@@ -24,6 +25,7 @@ function App() {
             <Route path="/parent/login" element={<ParentLogin />} />
             <Route path="/parent/jobs" element={<MyJobs />} />
             <Route path="/parent/create" element={<CreateJob />} />
+            <Route path="/parent/create/edit" element={<EditJob />} />
             <Route path="/parent/update" element={<UpdatePersonalDetails />} />
             <Route path="/parent/tutors" element={<TutorList />} />
           </Routes>

@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import CreateJobModal from "./CreateJobModal";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const CreateJob = () => {
-  //States for job creation
+const EditJob = () => {
   const [childName, setChildName] = useState("");
   const [level, setLevel] = useState("");
   const [subject, setSubject] = useState("");
@@ -10,10 +9,23 @@ const CreateJob = () => {
   const [frequency, setFrequency] = useState("");
   const [days, setDays] = useState("");
   const [rate, setRate] = useState("");
-  const [createJob, setCreateJob] = useState(false);
+  const navigate = useNavigate();
 
-  //State for modal to show
-  const [show, setShow] = useState(false);
+  const getJobDetails = async () => {
+    let result = await fetch(`http://localhost:5001/parent/created`);
+    result = await result.json();
+    setChildName(result.childName);
+    setLevel(result.level);
+    setSubject(result.subject);
+    setDuration(result.duration);
+    setFrequency(result.frequency);
+    setDays(result.days);
+    setRate(result.rate);
+  };
+
+  useEffect(() => {
+    getJobDetails();
+  }, []);
 
   //Handling changes
   const handleChildName = (e) => {
@@ -38,16 +50,12 @@ const CreateJob = () => {
     setRate(e.target.value);
   };
 
-  const addJob = async (
-    childName,
-    level,
-    subject,
-    duration,
-    frequency,
-    days,
-    rate
-  ) => {
-    await fetch("http://localhost:5001/api/parent/create", {
+  // Handling job update
+  const updateJob = async () => {
+    let result = await fetch(`http://localhost:5001/parent/registration`, {
+      headers: {
+        "Content-Type": "Application/json",
+      },
       method: "PATCH",
       body: JSON.stringify({
         childName: childName,
@@ -58,36 +66,19 @@ const CreateJob = () => {
         days: days,
         rate: rate,
       }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then((response) => response.json())
-      .catch((err) => {
-        console.log(err.message);
-      });
-    setChildName("");
-    setLevel("");
-    setSubject("");
-    setDuration("");
-    setFrequency("");
-    setDays("");
-    setRate("");
-    setCreateJob(true);
-  };
-
-  // Handling form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    addJob(childName, level, subject, duration, frequency, days, rate);
+    });
+    result = await result.json();
+    if (result) {
+      navigate("/parent/jobs");
+    }
   };
 
   return (
     <>
       <div>
-        <h1>Create Assignment</h1>
+        <h1>Update Assignment</h1>
       </div>
-      <form onSubmit={setShow(true)}>
+      <form onSubmit={updateJob}>
         <div>
           <div>
             <label>Child's name </label>
@@ -170,26 +161,13 @@ const CreateJob = () => {
           </div>
         </div>
         <div>
-          <button type="submit" class="btn" onClick={setShow(true)}>
-            Create assignment
+          <button type="submit" class="btn" onClick={updateJob}>
+            Update
           </button>
         </div>
       </form>
-      {createJob ? (
-        <p>You Have Created An Assignment Successfully</p>
-      ) : (
-        <p>You Did Not Create An Assignment</p>
-      )}
-      {show && (
-        <CreateJobModal
-          title="Confirmation"
-          message="Are you sure you want to create this job assignment?"
-          show={show}
-          onClick={handleSubmit}
-        />
-      )}
     </>
   );
 };
 
-export default CreateJob;
+export default EditJob;

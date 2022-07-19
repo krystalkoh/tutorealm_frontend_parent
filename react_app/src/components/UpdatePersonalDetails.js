@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const UpdatePersonalDetails = () => {
   const [email, setEmail] = useState("");
@@ -7,11 +7,11 @@ const UpdatePersonalDetails = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
-  const params = useParams();
+
   const navigate = useNavigate;
 
   const getPersonalDetails = async () => {
-    let result = await fetch(`http://localhost:5001/parent/${params.id}`);
+    let result = await fetch(`http://localhost:5001/parent/registration`);
     result = await result.json();
     setEmail(result.email);
     setParentName(result.parentName);
@@ -42,12 +42,12 @@ const UpdatePersonalDetails = () => {
   };
 
   // Handling form update
-  const updateProduct = async () => {
-    let result = await fetch(`http://localhost:5001/parent/${params.id}`, {
+  const updatePersonal = async () => {
+    let result = await fetch(`http://localhost:5001/parent/registration`, {
       headers: {
         "Content-Type": "Application/json",
       },
-      method: "Put",
+      method: "PATCH",
       body: JSON.stringify({
         email: email,
         parentName: parentName,
@@ -58,16 +58,16 @@ const UpdatePersonalDetails = () => {
     });
     result = await result.json();
     if (result) {
-      navigate("/");
+      navigate("/parent/jobs");
     }
   };
 
   return (
     <>
       <div>
-        <h1>Register</h1>
+        <h1>Update Personal Details</h1>
       </div>
-      <form action="" method="post" target="_blank" onSubmit={updateProduct}>
+      <form action="" method="post" target="_blank" onSubmit={updatePersonal}>
         <div>
           <div>
             <label>Parent's email </label>
@@ -126,8 +126,8 @@ const UpdatePersonalDetails = () => {
           </div>
         </div>
         <div>
-          <button type="submit" class="btn" onClick={updateProduct}>
-            Register
+          <button type="submit" class="btn" onClick={updatePersonal}>
+            Update
           </button>
         </div>
       </form>

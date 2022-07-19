@@ -8,7 +8,7 @@ const MyJobs = () => {
 
   const fetchJobs = async (input) => {
     if (input) {
-      const jobList = `http://localhost:5001/parent/`;
+      const jobList = `http://localhost:5001/parent/created`;
       const res = await fetch(jobList);
       const jobs = await res.json();
       setJoblist(jobs);
@@ -20,7 +20,7 @@ const MyJobs = () => {
   }, [joblist]);
 
   const fetchTutors = async () => {
-    const tutorlist = `http://localhost:5001/parent/`;
+    const tutorlist = `http://localhost:5001/parent/tutorApplied`;
     const res = await fetch(tutorlist);
     const tutors = await res.json();
     navigate("/tutors")

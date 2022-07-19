@@ -10,7 +10,7 @@ const ParentRegForm = () => {
   const [password, setPassword] = useState("");
 
   const [register, setRegister] = useState(false);
-  let navigate = useNavigate()
+  let navigate = useNavigate();
 
   //Handling changes
   const handleEmail = (e) => {
