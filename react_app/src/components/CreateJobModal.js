@@ -22,22 +22,22 @@ const OverLay = (props) => {
 };
 
 const CreateJobModal = (props) => {
-  if (!props.show) {
-    return null;
-  } else {
-    return (
-      <>
-        {ReactDOM.createPortal(
-          <OverLay
-            title={props.title}
-            message={props.message}
-            onClick={props.onClick}
-          />,
-          document.querySelector("#modal-root")
-        )}
-      </>
-    );
-  }
+  // if (!props.show) {
+  //   return null;
+  // } else {
+  return (
+    <>
+      {ReactDOM.createPortal(
+        <OverLay
+          title={props.title}
+          message={props.message}
+          onClick={props.onClick}
+        />,
+        document.querySelector("#modal-root")
+      )}
+    </>
+  );
 };
+// };
 
 export default CreateJobModal;

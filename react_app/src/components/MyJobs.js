@@ -23,7 +23,7 @@ const MyJobs = () => {
     const tutorlist = `http://localhost:5001/parent/tutorApplied`;
     const res = await fetch(tutorlist);
     const tutors = await res.json();
-    navigate("/tutors")
+    navigate("/parent/tutors")
     return (
       <TutorList tutors={tutors}/>
     );

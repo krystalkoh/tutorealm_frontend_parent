@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CreateJobModal from "./CreateJobModal";
+import authService from "../services/AuthService";
 
 const CreateJob = () => {
   //States for job creation
@@ -59,13 +60,15 @@ const CreateJob = () => {
         rate: rate,
       }),
       headers: {
-        "Content-type": "application/json; charset=UTF-8",
+        "Content-type": "application/json",
+        Authorization: "Bearer " + authService.getCurrentUser().access,
       },
     })
       .then((response) => response.json())
       .catch((err) => {
         console.log(err.message);
       });
+
     setChildName("");
     setLevel("");
     setSubject("");
@@ -77,9 +80,16 @@ const CreateJob = () => {
   };
 
   // Handling form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+
     addJob(childName, level, subject, duration, frequency, days, rate);
+    setShow(false);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    setShow(true);
   };
 
   return (
@@ -87,7 +97,8 @@ const CreateJob = () => {
       <div>
         <h1>Create Assignment</h1>
       </div>
-      <form onSubmit={setShow(true)}>
+
+      <form onSubmit={handleFormSubmit}>
         <div>
           <div>
             <label>Child's name </label>
@@ -170,16 +181,18 @@ const CreateJob = () => {
           </div>
         </div>
         <div>
-          <button type="submit" class="btn" onClick={setShow(true)}>
+          <button type="submit" class="btn">
             Create assignment
           </button>
         </div>
       </form>
+
       {createJob ? (
         <p>You Have Created An Assignment Successfully</p>
       ) : (
         <p>You Did Not Create An Assignment</p>
       )}
+
       {show && (
         <CreateJobModal
           title="Confirmation"

@@ -22,7 +22,7 @@ const ParentLogin = (props) => {
     authService
       .login(email, password)
       .then(() => {
-        window.location.reload();
+        // window.location.reload();
         navigate("/jobs");
       })
       .catch((err) => {
@@ -36,7 +36,7 @@ const ParentLogin = (props) => {
       <div>
         <h1>Login</h1>
       </div>
-      <form onSubmit={() => handleLogin()} method="post" target="_blank">
+      <form onSubmit={() => handleLogin()}>
         <label>Email </label>
         <input
           type="email"
@@ -52,16 +52,12 @@ const ParentLogin = (props) => {
           onChange={(e) => handlePassword(e)}
         />
         <div>
-          <button type="submit" onCLick={(e) => handleLogin(e)}>
+          <button type="submit" onClick={(e) => handleLogin(e)}>
             Submit
           </button>
         </div>
       </form>
-      {login ? (
-       navigate("/parent/jobs")
-      ) : (
-        <p>You Are Not Logged in</p>
-      )}
+      {login ? navigate("/parent/jobs") : <p>You Are Not Logged in</p>}
     </>
   );
 };

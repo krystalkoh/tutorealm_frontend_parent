@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import authService from "../services/AuthService";
 
 const UpdatePersonalDetails = () => {
   const [email, setEmail] = useState("");
@@ -8,10 +9,11 @@ const UpdatePersonalDetails = () => {
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate;
+  const navigate = useNavigate();
 
   const getPersonalDetails = async () => {
     let result = await fetch(`http://localhost:5001/parent/registration`);
+    console.log(result);
     result = await result.json();
     setEmail(result.email);
     setParentName(result.parentName);
@@ -42,10 +44,12 @@ const UpdatePersonalDetails = () => {
   };
 
   // Handling form update
-  const updatePersonal = async () => {
-    let result = await fetch(`http://localhost:5001/parent/registration`, {
+  const updatePersonal = async (e) => {
+    e.preventDefault();
+    let result = await fetch(`http://localhost:5001/api/parent/registration`, {
       headers: {
         "Content-Type": "Application/json",
+        Authorization: "Bearer " + authService.getCurrentUser().access,
       },
       method: "PATCH",
       body: JSON.stringify({
@@ -56,8 +60,9 @@ const UpdatePersonalDetails = () => {
         password: password,
       }),
     });
-    result = await result.json();
-    if (result) {
+    const data = await result.json();
+    console.log(data);
+    if (data) {
       navigate("/parent/jobs");
     }
   };
@@ -67,7 +72,7 @@ const UpdatePersonalDetails = () => {
       <div>
         <h1>Update Personal Details</h1>
       </div>
-      <form action="" method="post" target="_blank" onSubmit={updatePersonal}>
+      <form onSubmit={updatePersonal}>
         <div>
           <div>
             <label>Parent's email </label>
@@ -77,7 +82,6 @@ const UpdatePersonalDetails = () => {
               name="email"
               value={email}
               onChange={handleEmail}
-              required
             />
           </div>
           <div>
@@ -88,7 +92,6 @@ const UpdatePersonalDetails = () => {
               name="parentName"
               value={parentName}
               onChange={handleParentName}
-              required
             />
           </div>
           <div>
@@ -99,7 +102,6 @@ const UpdatePersonalDetails = () => {
               name="phone"
               value={phone}
               onChange={handlePhone}
-              required
             />
           </div>
           <div>
@@ -110,7 +112,6 @@ const UpdatePersonalDetails = () => {
               name="address"
               value={address}
               onChange={handleAddress}
-              required
             />
           </div>
           <div>
@@ -121,7 +122,6 @@ const UpdatePersonalDetails = () => {
               name="password"
               value={password}
               onChange={handlePassword}
-              required
             />
           </div>
         </div>

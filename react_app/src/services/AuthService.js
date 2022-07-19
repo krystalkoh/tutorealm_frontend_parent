@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "http://localhost:5001/api/parent/";
+const API_URL = "http://localhost:5001/api/parent/login";
 
 const register = (email, password) => {
   return axios.post(API_URL + "register", {
@@ -10,12 +10,12 @@ const register = (email, password) => {
 
 const login = (email, password) => {
   return axios
-    .post(API_URL + "login", {
+    .post(API_URL, {
       email,
       password,
     })
     .then((response) => {
-      if (response.data.accessToken) {
+      if (response.data.access) {
         localStorage.setItem("user", JSON.stringify(response.data));
       }
       return response.data;

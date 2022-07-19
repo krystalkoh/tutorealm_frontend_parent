@@ -20,7 +20,7 @@ const NavBar = () => {
               to="/parent/create/edit"
               className={(navData) => (navData.isActive ? styles.active : "")}
             >
-              Edit Profile
+              Edit Assignments
             </NavLink>
           </li>
           <li>
@@ -36,7 +36,7 @@ const NavBar = () => {
               to="/parent/update"
               className={(navData) => (navData.isActive ? styles.active : "")}
             >
-              Edit Assignment
+              Edit Profile
             </NavLink>
           </li>
         </ul>
