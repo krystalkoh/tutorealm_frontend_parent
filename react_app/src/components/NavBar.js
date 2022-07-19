@@ -17,14 +17,6 @@ const NavBar = () => {
           </li>
           <li>
             <NavLink
-              to="/parent/create/edit"
-              className={(navData) => (navData.isActive ? styles.active : "")}
-            >
-              Edit Assignments
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
               to="/parent/jobs"
               className={(navData) => (navData.isActive ? styles.active : "")}
             >
