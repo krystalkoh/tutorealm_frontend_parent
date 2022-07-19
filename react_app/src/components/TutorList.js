@@ -6,17 +6,14 @@ const TutorList = (props) => {
   const [showPreview, setShowPreview] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-
   const tutors = props.tutors.map((tutor) => {
     return (
       <>
         <div id={tutor.id} key={tutor.id} onClick={setShowPreview(true)}>
-          <p>{tutor.name}</p>
           <p>{tutor.gender}</p>
+          <p>{tutor.edulevel}</p>
           <div>
-            <button onClick={() => setShowConfirmation(true)}>
-              Hire
-            </button>
+            <button onClick={() => setShowConfirmation(true)}>Hire</button>
           </div>
         </div>
         {showPreview && (
@@ -30,11 +27,12 @@ const TutorList = (props) => {
           />
         )}
         {showConfirmation && (
-        <ConfirmHireModal id={tutor.id}
-          title="Hire confirmation"
-          message="Are you sure you want to hire this tutor?"
-          //onClick={} change assignment availbility to false, close the modal
-        />
+          <ConfirmHireModal
+            id={tutor.id}
+            title="Hire confirmation"
+            message="Are you sure you want to hire this tutor?"
+            //onClick={} change assignment availbility to false, close the modal
+          />
         )}
       </>
     );

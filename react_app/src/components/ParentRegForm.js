@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ParentRegForm = () => {
   //States for registration
@@ -9,6 +10,7 @@ const ParentRegForm = () => {
   const [password, setPassword] = useState("");
 
   const [register, setRegister] = useState(false);
+  let navigate = useNavigate()
 
   //Handling changes
   const handleEmail = (e) => {
@@ -65,7 +67,7 @@ const ParentRegForm = () => {
         <h1>Register</h1>
       </div>
       {register ? (
-        <p>You Are Registered Successfully</p>
+        navigate("/parent/login")
       ) : (
         <p>Please Register For An Account</p>
       )}

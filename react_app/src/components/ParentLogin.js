@@ -22,8 +22,8 @@ const ParentLogin = (props) => {
     authService
       .login(email, password)
       .then(() => {
-        navigate("/jobs");
         window.location.reload();
+        navigate("/jobs");
       })
       .catch((err) => {
         console.log(err.message);
