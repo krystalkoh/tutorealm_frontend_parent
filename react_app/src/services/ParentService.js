@@ -4,7 +4,7 @@ import authHeader from "./AuthHeader";
 const API_URL = "http://localhost:5001/api/";
 
 const getPublicContent = () => {
-  return axios.get(API_URL + "all");
+  return axios.get(API_URL);
 };
 const getParentAccess = () => {
   return axios.get(API_URL + "parent", { headers: authHeader() });

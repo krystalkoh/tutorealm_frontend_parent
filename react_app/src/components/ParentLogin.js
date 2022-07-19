@@ -58,7 +58,7 @@ const ParentLogin = (props) => {
         </div>
       </form>
       {login ? (
-        <p>You Have Logged in Successfully</p> //direct route to homepage
+       navigate("/parent/jobs")
       ) : (
         <p>You Are Not Logged in</p>
       )}

@@ -9,26 +9,26 @@ const NavBar = () => {
           <ul>
             <li>
               <NavLink
-                to="/create"
+                to="/parent/create"
                 className={(navData) => (navData.isActive ? styles.active : "")}
               >
-                Page one
+                Create Assignment
               </NavLink>
             </li>
             <li>
               <NavLink
-                to="/update"
+                to="/parent/update"
                 className={(navData) => (navData.isActive ? styles.active : "")}
               >
-                Page two
+                Edit profile
               </NavLink>
             </li>
             <li>
               <NavLink
-                to="/jobs"
+                to="/parent/jobs"
                 className={(navData) => (navData.isActive ? styles.active : "")}
               >
-                Page three
+                Created Assignments
               </NavLink>
             </li>
           </ul>

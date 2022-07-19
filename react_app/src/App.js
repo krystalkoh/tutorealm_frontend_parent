@@ -19,13 +19,13 @@ function App() {
       <main>
         <Suspense fallback={<p>Loading...</p>}>
           <Routes>
-            <Route path="/" element={<Navigate replace to="/jobs" />} />
-            <Route path="/register" element={<ParentRegForm />} />
-            <Route path="/login" element={<ParentLogin />} />
-            <Route path="/jobs" element={<MyJobs />} />
-            <Route path="/create" element={<CreateJob />} />
-            <Route path="/update" element={<UpdatePersonalDetails />} />
-            <Route path="/tutors" element={<TutorList />} />
+            <Route path="/" element={<Navigate replace to="/parent/jobs" />} />
+            <Route path="/parent/register" element={<ParentRegForm />} />
+            <Route path="/parent/login" element={<ParentLogin />} />
+            <Route path="/parent/jobs" element={<MyJobs />} />
+            <Route path="/parent/create" element={<CreateJob />} />
+            <Route path="/parent/update" element={<UpdatePersonalDetails />} />
+            <Route path="/parent/tutors" element={<TutorList />} />
           </Routes>
         </Suspense>
       </main>
