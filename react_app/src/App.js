@@ -25,7 +25,7 @@ function App() {
             <Route path="/parent/update" element={<UpdatePersonalDetails />} />
             <Route path="/parent/create" element={<CreateJob />} />
             <Route path="/parent/jobs" element={<MyJobs />} />
-            <Route path="/parent/applied" element={<TutorList />} />
+            <Route path="/parent/applied/:id" element={<TutorList />} />
           </Routes>
         </Suspense>
       </main>
